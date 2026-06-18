@@ -7,6 +7,19 @@ export default {
     // 뷰는 재마운트될 수 있으므로 이벤트 구독은 activate 에서 1회만 — 현재 마운트만 갱신.
     let current = null;
 
+    // URL → node path 안정키. URL 자체가 안정 식별자(카운터 인덱스 금지) — 다만 path
+    // 세그먼트 규칙(^[a-z0-9][a-z0-9.-]*$)에 맞춰 소문자화 + 허용외 문자(:/?#& 등)를 "-" 로 정제.
+    // 같은 url → 같은 키(멱등). 정제 후 빈 문자열은 "_" 로 대체해 빈 세그먼트를 피한다.
+    const nodeKey = (url) => {
+      const k = String(url)
+        .toLowerCase()
+        .replace(/[^a-z0-9.-]+/g, "-")
+        .replace(/^[.-]+|[.-]+$/g, "");
+      // 정제 후 빈 문자열(허용 문자가 0개인 병적 url)은 유효 세그먼트 "url" 로 대체.
+      // 실 url 은 항상 영숫자를 포함하므로 도달하지 않는 안전망(빈/불량 세그먼트 방지).
+      return k || "url";
+    };
+
     // 명령 실행 — 실패(ok:false)는 예외로 승격해 호출부에서 화면에 표시.
     const run = async (name, params) => {
       const r = await app.commands.execute(name, params ?? {});
@@ -68,6 +81,9 @@ export default {
               const row = document.createElement("div");
               row.className = "skbm-row";
               row.title = bm.url;
+              // 외부 노출(주소 클릭/측정·E2E) — 동적 목록이라 안정키(정제된 url)로 인스턴스 부여.
+              const key = nodeKey(bm.url);
+              row.dataset.node = `row/${key}`;
               const main = document.createElement("div");
               main.className = "skbm-main";
               const title = document.createElement("div");
@@ -83,6 +99,7 @@ export default {
               x.className = "skbm-x";
               x.textContent = "✕";
               x.title = "제거";
+              x.dataset.node = `remove/${key}`;
 
               // 행 클릭 → 브라우저로 열기.
               row.addEventListener("click", async () => {
