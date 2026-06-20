@@ -1,9 +1,9 @@
 {
   "spec": "soksak-plugin-spec@1",
-  "id": "soksak-plugin-bookmarks",
+  "id": "soksak-plugin-browser-bookmarks",
   "name": { "en": "Bookmarks", "ko": "즐겨찾기" },
   "version": "1.0.0",
-  "repo": "https://github.com/soksak-ai/soksak-plugin-bookmarks.git",
+  "repo": "https://github.com/soksak-ai/soksak-plugin-browser-bookmarks.git",
   "description": { "en": "Browser bookmarks panel — click to open, ✕ to remove.", "ko": "브라우저 즐겨찾기 목록 패널 — 클릭으로 열고 ✕ 로 제거." },
   "entry": "main.js",
   "permissions": ["ui", "commands", "commands:destructive"],

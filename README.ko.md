@@ -1,4 +1,4 @@
-# 즐겨찾기 (soksak-plugin-bookmarks)
+# 즐겨찾기 (soksak-plugin-browser-bookmarks)
 
 브라우저 즐겨찾기 목록을 우측 사이드바 패널(★)로 보여주는 플러그인입니다.
 새 백엔드 코드 0줄 — 앱에 이미 있는 명령만 조합합니다.
@@ -14,7 +14,7 @@
 
 | 권한 | 사용처 |
 |------|--------|
-| `ui` | 사이드바 뷰(`soksak-plugin-bookmarks.list`) 등록 |
+| `ui` | 사이드바 뷰(`soksak-plugin-browser-bookmarks.list`) 등록 |
 | `commands` | `bookmark.list`, `browser.open` 실행 |
 | `commands:destructive` | `bookmark.remove`(항목 제거 — 파괴적 동작) 실행. 동의 화면에 강조 표시됩니다 |
 
@@ -24,10 +24,10 @@
 
 ```sh
 # git 레포로 배포하는 경우
-sok plugin.install '{"url":"https://github.com/<you>/soksak-plugin-bookmarks"}'
+sok plugin.install '{"url":"https://github.com/<you>/soksak-plugin-browser-bookmarks"}'
 
 # 이 레포의 예제를 직접 쓰는 경우: ~/.soksak/plugins/ 에 복사
-cp -r examples/plugins/soksak-plugin-bookmarks ~/.soksak/plugins/soksak-plugin-bookmarks
+cp -r examples/plugins/soksak-plugin-browser-bookmarks ~/.soksak/plugins/soksak-plugin-browser-bookmarks
 ```
 
 설치 후 앱의 플러그인 설정에서 활성화(동의)합니다. 원격 활성화는 기록된 동의가
@@ -46,7 +46,7 @@ cp -r examples/plugins/soksak-plugin-bookmarks ~/.soksak/plugins/soksak-plugin-b
 외부(주소 클릭/측정·E2E)에 노출하는 요소는 매니페스트 `contributes.nodes` 에 종류를
 선언하고 실제 요소에 `data-node` 속성을 부여합니다. 미선언/미부여 요소는 접근 불가입니다.
 
-전역 주소: `.../view/soksak-plugin-bookmarks.list/node/<data-node>`
+전역 주소: `.../view/soksak-plugin-browser-bookmarks.list/node/<data-node>`
 
 | 노드 | data-node | 설명 |
 |------|-----------|------|

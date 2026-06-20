@@ -1,4 +1,4 @@
-# Bookmarks (soksak-plugin-bookmarks)
+# Bookmarks (soksak-plugin-browser-bookmarks)
 
 A plugin that shows the browser bookmark list in a right sidebar panel (★).
 Zero new backend code — it only composes commands already provided by the app.
@@ -14,7 +14,7 @@ Zero new backend code — it only composes commands already provided by the app.
 
 | Permission | Usage |
 |------|--------|
-| `ui` | Register the sidebar view (`soksak-plugin-bookmarks.list`) |
+| `ui` | Register the sidebar view (`soksak-plugin-browser-bookmarks.list`) |
 | `commands` | Execute `bookmark.list`, `browser.open` |
 | `commands:destructive` | Execute `bookmark.remove` (item removal — destructive action). Highlighted on the consent screen |
 
@@ -24,10 +24,10 @@ Only declared permissions are used. No own command registration, storage, file, 
 
 ```sh
 # If distributed as a git repo
-sok plugin.install '{"url":"https://github.com/<you>/soksak-plugin-bookmarks"}'
+sok plugin.install '{"url":"https://github.com/<you>/soksak-plugin-browser-bookmarks"}'
 
 # To use the example from this repo directly: copy to ~/.soksak/plugins/
-cp -r examples/plugins/soksak-plugin-bookmarks ~/.soksak/plugins/soksak-plugin-bookmarks
+cp -r examples/plugins/soksak-plugin-browser-bookmarks ~/.soksak/plugins/soksak-plugin-browser-bookmarks
 ```
 
 After installation, activate (consent) the plugin in the app's plugin settings. Remote activation
@@ -48,7 +48,7 @@ Elements exposed to the outside (address clicks/measurements, E2E) are declared 
 manifest `contributes.nodes` and have a `data-node` attribute on the actual element.
 Undeclared or unattributed elements are not accessible.
 
-Global address: `.../view/soksak-plugin-bookmarks.list/node/<data-node>`
+Global address: `.../view/soksak-plugin-browser-bookmarks.list/node/<data-node>`
 
 | Node | data-node | Description |
 |------|-----------|------|
