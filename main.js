@@ -1,9 +1,17 @@
 // 즐겨찾기 플러그인 — 기존 명령만 조합(bookmark.list / bookmark.remove / browser.open).
 // 자체 백엔드·자체 명령 0개. 목록은 bookmarks.changed 이벤트로 라이브 갱신.
 
+// ── i18n ─────────────────────────────────────────────────────────────────────
+const I18N = {
+  "empty.label":   { en: "No bookmarks",                                            ko: "즐겨찾기 없음" },
+  "empty.hint":    { en: "Add with ★ in the browser or sok bookmark.add",           ko: "브라우저의 ★ 버튼이나 sok bookmark.add 로 추가하세요." },
+  "remove.title":  { en: "Remove",                                                  ko: "제거" },
+};
+
 export default {
   activate(ctx) {
     const app = ctx.app;
+    const t = (k) => { const s = I18N[k]; const l = app.locale ? app.locale() : "ko"; return s ? (s[l] ?? s.en ?? s.ko) : k; };
     // 뷰는 재마운트될 수 있으므로 이벤트 구독은 activate 에서 1회만 — 현재 마운트만 갱신.
     let current = null;
 
@@ -70,10 +78,10 @@ export default {
             if (!bookmarks.length) {
               const empty = document.createElement("div");
               empty.className = "skbm-empty";
-              empty.textContent = "즐겨찾기 없음";
+              empty.textContent = t("empty.label");
               const hint = document.createElement("div");
               hint.className = "skbm-hint";
-              hint.textContent = "브라우저의 ★ 버튼이나 sok bookmark.add 로 추가하세요.";
+              hint.textContent = t("empty.hint");
               list.append(empty, hint);
               return;
             }
@@ -98,7 +106,7 @@ export default {
               const x = document.createElement("button");
               x.className = "skbm-x";
               x.textContent = "✕";
-              x.title = "제거";
+              x.title = t("remove.title");
               x.dataset.node = `remove/${key}`;
 
               // 행 클릭 → 브라우저로 열기.
@@ -126,10 +134,7 @@ export default {
             }
           };
 
-          current = { render, showError };
-
-          // 초기 목록 로드.
-          (async () => {
+          const reload = async () => {
             try {
               const r = await run("bookmark.list");
               clearError();
@@ -137,7 +142,11 @@ export default {
             } catch (e) {
               showError(e);
             }
-          })();
+          };
+          current = { render, showError, reload };
+
+          // 초기 목록 로드.
+          void reload();
         },
         unmount(el) {
           current = null;
@@ -154,6 +163,12 @@ export default {
         } catch (e) {
           if (current) current.showError(e);
         }
+      }),
+    );
+    // locale.changed — 번역 적용을 위해 목록 재렌더.
+    ctx.subscriptions.push(
+      app.events.on("locale.changed", () => {
+        try { if (current) void current.reload(); } catch {}
       }),
     );
   },
