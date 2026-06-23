@@ -6,6 +6,9 @@
   "repo": "https://github.com/soksak-ai/soksak-plugin-browser-bookmarks.git",
   "description": { "en": "Browser bookmarks panel — click to open, ✕ to remove.", "ko": "브라우저 즐겨찾기 목록 패널 — 클릭으로 열고 ✕ 로 제거." },
   "entry": "main.js",
+  "dependencies": {
+    "soksak-plugin-browser": ">=2.0.0"
+  },
   "permissions": ["ui", "commands", "commands:destructive"],
   "contributes": {
     "views": [
